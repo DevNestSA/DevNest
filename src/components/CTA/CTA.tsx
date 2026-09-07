@@ -66,13 +66,18 @@ export function CTA() {
             <h2 id="cta-heading">
               Ready to <span className="dn-green">build?</span>
             </h2>
-            <p>Let's create something your business can grow with.</p>
+            <p>
+              Tell us what you're working on and let's find the right digital solution
+              for your business.
+            </p>
             <a
-              href="https://devnest.co.za/"
+              href="https://wa.me/27765808310?text=Hi%20DevNest!%20I%27m%20interested%20in%20starting%20a%20project.%20I%27d%20like%20to%20find%20out%20more%20about%20your%20services."
+              target="_blank"
+              rel="noreferrer"
               className="dn-btn dn-btn--primary"
               style={{ position: "relative" }}
             >
-              Start Your Project <ArrowRight size={16} aria-hidden="true" />
+              Start a Conversation <ArrowRight size={16} aria-hidden="true" />
             </a>
           </div>
         </Reveal>

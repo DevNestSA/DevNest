@@ -1,10 +1,10 @@
-import logo from "@/assets/devnest-logo-lockup.png.asset.json";
+import logo from "@/assets/DevNest.png";
 
 export function Logo({ className }: { className?: string }) {
   return (
     <img
-      src={logo.url}
-      alt="DevNest logo"
+      src={logo}
+      alt="DevNest"
       className={className}
       width={242}
       height={180}
@@ -13,4 +13,4 @@ export function Logo({ className }: { className?: string }) {
   );
 }
 
-export const logoUrl = logo.url;
+export const logoUrl = logo;

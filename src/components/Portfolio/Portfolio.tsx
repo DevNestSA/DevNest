@@ -7,23 +7,42 @@ function Preview({ variant }: { variant: Project["preview"] }) {
   const block = (w: string, h = 8, green = false) => (
     <div
       className="dn-skeleton"
-      style={{ width: w, height: h, background: green ? "#00D95F" : undefined }}
+      style={{
+        width: w,
+        height: h,
+        background: green ? "#00D95F" : undefined,
+      }}
     />
   );
 
   return (
-    <div style={{ position: "relative", zIndex: 1, display: "grid", gap: 10 }}>
+    <div
+      style={{
+        position: "relative",
+        zIndex: 1,
+        display: "grid",
+        gap: 10,
+      }}
+    >
       <div style={{ display: "flex", gap: 6, marginBottom: 6 }}>
         <span className="dn-dot" />
         <span className="dn-dot" />
         <span className="dn-dot dn-dot--green" />
       </div>
+
       {variant === "layout" && (
         <>
           {block("55%", 14, true)}
           {block("80%")}
           {block("68%")}
-          <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+
+          <div
+            style={{
+              display: "flex",
+              gap: 10,
+              marginTop: 8,
+            }}
+          >
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
@@ -39,25 +58,43 @@ function Preview({ variant }: { variant: Project["preview"] }) {
           </div>
         </>
       )}
+
       {variant === "store" && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 10,
+          }}
+        >
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
               style={{
                 height: 52,
                 borderRadius: 8,
-                border: `1px solid ${i === 1 ? "#00D95F" : "#123326"}`,
+                border: `1px solid ${
+                  i === 1 ? "#00D95F" : "#123326"
+                }`,
                 background: "rgba(7,18,14,0.9)",
               }}
             />
           ))}
         </div>
       )}
+
       {variant === "dashboard" && (
         <>
           {block("40%", 12, true)}
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 78 }}>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "flex-end",
+              gap: 8,
+              height: 78,
+            }}
+          >
             {[40, 68, 32, 84, 56, 92].map((h) => (
               <div
                 key={h}
@@ -65,15 +102,23 @@ function Preview({ variant }: { variant: Project["preview"] }) {
                   flex: 1,
                   height: `${h}%`,
                   borderRadius: "4px 4px 0 0",
-                  background: "linear-gradient(to top, rgba(0,217,95,0.15), #00D95F)",
+                  background:
+                    "linear-gradient(to top, rgba(0,217,95,0.15), #00D95F)",
                 }}
               />
             ))}
           </div>
         </>
       )}
+
       {variant === "portal" && (
-        <div style={{ display: "grid", gridTemplateColumns: "70px 1fr", gap: 12 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "70px 1fr",
+            gap: 12,
+          }}
+        >
           <div
             style={{
               height: 96,
@@ -82,7 +127,14 @@ function Preview({ variant }: { variant: Project["preview"] }) {
               background: "rgba(7,18,14,0.9)",
             }}
           />
-          <div style={{ display: "grid", gap: 10, alignContent: "start" }}>
+
+          <div
+            style={{
+              display: "grid",
+              gap: 10,
+              alignContent: "start",
+            }}
+          >
             {block("70%", 10, true)}
             {block("90%")}
             {block("60%")}
@@ -95,14 +147,19 @@ function Preview({ variant }: { variant: Project["preview"] }) {
 }
 
 export function Portfolio() {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotion() ?? false;
 
   return (
-    <section id="work" className="dn-section" aria-labelledby="work-heading">
+    <section
+      id="work"
+      className="dn-section"
+      aria-labelledby="work-heading"
+    >
       <div className="dn-shell">
         <Reveal>
           <p className="dn-label">Selected work</p>
         </Reveal>
+
         <Reveal delay={0.08}>
           <h2 id="work-heading" className="dn-h2">
             Built with <span className="dn-green">purpose.</span>
@@ -114,33 +171,66 @@ export function Portfolio() {
             <Reveal key={project.name} delay={i * 0.08}>
               <motion.article
                 className="dn-project"
-                whileHover={{ y: reduced ? 0 : -6 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={reduced ? {} : { y: -6 }}
+                transition={{
+                  duration: 0.35,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               >
                 <div className="dn-project__preview">
-                  <Preview variant={project.preview} />
+                  {project.image ? (
+                    <img
+                      src={project.image}
+                      alt={`${project.name} website preview`}
+                      className="dn-project__image"
+                    />
+                  ) : (
+                    <Preview variant={project.preview} />
+                  )}
+
+                  <div className="dn-project__category">
+                    {project.category}
+                  </div>
                 </div>
+
                 <div className="dn-project__body">
                   <h3>{project.name}</h3>
+
                   <p>{project.description}</p>
+
                   <ul className="dn-tags">
                     {project.technologies.map((tech) => (
                       <li key={tech}>{tech}</li>
                     ))}
                   </ul>
-                  <button type="button" className="dn-project__link">
-                    View project <ArrowUpRight size={16} aria-hidden="true" />
-                  </button>
+
+                  {project.url ? (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="dn-project__link"
+                    >
+                      View project
+                      <ArrowUpRight
+                        size={16}
+                        aria-hidden="true"
+                      />
+                    </a>
+                  ) : (
+                    <span className="dn-project__link dn-project__link--disabled">
+                      Project preview
+                      <ArrowUpRight
+                        size={16}
+                        aria-hidden="true"
+                      />
+                    </span>
+                  )}
                 </div>
               </motion.article>
             </Reveal>
           ))}
         </div>
-
-        <p className="dn-placeholder-note">
-          Placeholder projects — replace the entries in src/data/projects.ts with real DevNest
-          work.
-        </p>
       </div>
     </section>
   );

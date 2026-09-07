@@ -2,6 +2,7 @@ import { ArrowUpRight, Cloud, MonitorSmartphone, Network, ShoppingBag } from "lu
 import { motion, useReducedMotion } from "framer-motion";
 import { services, type Service } from "@/data/services";
 import { Reveal } from "@/components/Reveal";
+import { Link } from "@tanstack/react-router";
 
 const icons = {
   monitor: MonitorSmartphone,
@@ -29,22 +30,33 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
 
   return (
     <Reveal delay={index * 0.08}>
-      <motion.article
+      <Link
+        to="/services/$slug"
+        params={{ slug: service.slug }}
         className="dn-card"
-        whileHover={{ y: reduced ? 0 : -6 }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Deco />
-        <span className="dn-card__num">{service.number}</span>
-        <span className="dn-card__icon">
-          <Icon size={24} aria-hidden="true" />
-        </span>
-        <h3>{service.title}</h3>
-        <p>{service.description}</p>
-        <span className="dn-card__arrow">
-          Learn more <ArrowUpRight size={16} aria-hidden="true" />
-        </span>
-      </motion.article>
+        <motion.div
+          whileHover={{ y: reduced ? 0 : -6 }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Deco />
+
+          <span className="dn-card__num">{service.number}</span>
+
+          <span className="dn-card__icon">
+            <Icon size={24} aria-hidden="true" />
+          </span>
+
+          <h3>{service.title}</h3>
+
+          <p>{service.description}</p>
+
+          <span className="dn-card__arrow">
+            Learn more
+            <ArrowUpRight size={16} aria-hidden="true" />
+          </span>
+        </motion.div>
+      </Link>
     </Reveal>
   );
 }
