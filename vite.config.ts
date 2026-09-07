@@ -7,8 +7,6 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [
-      netlify(),
-    ],
+    plugins: [netlify()],
   },
 });
