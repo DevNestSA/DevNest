@@ -1,0 +1,75 @@
+# =========================================================
+# DevNest - Apache Security & SPA Configuration
+# =========================================================
+
+DirectoryIndex _shell.html
+
+RewriteEngine On
+
+
+# ---------------------------------------------------------
+# 1. SPA ROUTING
+# ---------------------------------------------------------
+
+# Serve existing files and directories normally
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Send all other routes to the SPA shell
+RewriteRule ^ _shell.html [L]
+
+
+# ---------------------------------------------------------
+# 2. DISABLE DIRECTORY LISTING
+# ---------------------------------------------------------
+
+Options -Indexes
+
+
+# ---------------------------------------------------------
+# 3. SECURITY HEADERS
+# ---------------------------------------------------------
+
+<IfModule mod_headers.c>
+
+    # Prevent MIME-type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Prevent the site from being embedded in frames
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # Control referrer information
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # Disable unnecessary browser features
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+
+</IfModule>
+
+
+# ---------------------------------------------------------
+# 4. BLOCK ACCESS TO SENSITIVE FILES
+# ---------------------------------------------------------
+
+<FilesMatch "(^\.|\.env$|\.git|\.gitignore|\.htaccess|\.htpasswd|composer\.(json|lock)|package(-lock)?\.json|yarn\.lock|pnpm-lock\.yaml|README\.md)">
+    Require all denied
+</FilesMatch>
+
+
+# ---------------------------------------------------------
+# 5. BLOCK COMMON BACKUP / SOURCE FILES
+# ---------------------------------------------------------
+
+<FilesMatch "\.(bak|backup|old|orig|save|swp|tmp|log|sql|sqlite|dist)$">
+    Require all denied
+</FilesMatch>
+
+
+# ---------------------------------------------------------
+# 6. PROTECT SERVER CONFIG FILES
+# ---------------------------------------------------------
+
+<FilesMatch "^(web\.config|php\.ini|error_log)$">
+    Require all denied
+</FilesMatch>
